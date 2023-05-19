@@ -51,6 +51,6 @@ public class EmployeeController {
 		List<Employee> el = es.findAll();
 		// add to the spring model
 		theModel.addAttribute("employees", el);
-		return "list-employees";
+		return "employees/list-employees";
 	}
 }
