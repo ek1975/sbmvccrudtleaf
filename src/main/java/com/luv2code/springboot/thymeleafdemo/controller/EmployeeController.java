@@ -6,8 +6,7 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,44 @@ public class EmployeeController {
 		this.es = es;
 	}
 
-	/*  Commented out because we're retrieving employees from the database.
+	//adding mapping for add employee
+	@GetMapping("/showEmpForm")
+	public String addEmployee(Model m) {
+		Employee e = new Employee();
+		m.addAttribute("employee", e);
+		return "/employees/emp-form";
+	}
+
+	// add mapping for "/list"
+	@GetMapping("/list")
+	public String listEmployees(Model m) {
+		List<Employee> el = es.findAll();
+		// add to the spring model
+		m.addAttribute("employees", el);
+		return "employees/list-employees";
+	}
+
+	//save employee to DB
+	@PostMapping("/save")
+	public String saveEmp (@ModelAttribute("employee") Employee e) {
+		es.save(e);
+		return "redirect:/employees/list";
+	}
+
+	@GetMapping("/showEmp4Upd")
+	public String showEmp4Upd(@RequestParam("empId") int id, Model m) {
+		Employee e = es.findById(id);
+		m.addAttribute("employee", e);
+		return "/employees/emp-form";
+	}
+
+	@GetMapping("/delEmp")
+	public String delEmp(@RequestParam("empId") int id) {
+		es.deleteById(id);
+		return "redirect:/employees/list";
+	}
+
+    /*  Commented out because we're retrieving employees from the database.
 	private List<Employee> theEmployees;
 
 	@PostConstruct
@@ -44,13 +80,4 @@ public class EmployeeController {
 		theEmployees.add(emp3);
 	}
 */
-	// add mapping for "/list"
-
-	@GetMapping("/list")
-	public String listEmployees(Model theModel) {
-		List<Employee> el = es.findAll();
-		// add to the spring model
-		theModel.addAttribute("employees", el);
-		return "employees/list-employees";
-	}
 }

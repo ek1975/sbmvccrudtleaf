@@ -19,7 +19,7 @@
 	<h3>Employee Directory</h3>
 	<hr>
 
-	<a th:href="@{/employees/addEmp}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
+	<a th:href="@{/employees/showEmpForm}" class="btn btn-primary btn-sm mb-3">Add Employee</a>
 
 	<table class="table table-bordered table-striped">
 		<thead class="table-dark">
@@ -27,18 +27,22 @@
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Email</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 		
 		<tbody>
-			<tr th:each="tempEmployee : ${employees}">
-			
-				<td th:text="${tempEmployee.firstName}" />	
-				<td th:text="${tempEmployee.lastName}" />	
-				<td th:text="${tempEmployee.email}" />	
-				
+			<tr th:each="t : ${employees}">
+				<td th:text="${t.firstName}" />
+				<td th:text="${t.lastName}" />
+				<td th:text="${t.email}" />
+				<td>
+					<a th:href="@{/employees/showEmp4Upd(empId=${t.id})}" class="btn btn-info btn-sm">Update</a>
+					<a th:href="@{/employees/delEmp(empId=${t.id})}" class="btn btn-danger btn-sm"
+					onclick="if (!(confirm('Are you sure?'))) return false">Delete</a>
+				</td>
 			</tr>
-		</tbody>		
+		</tbody>
 	</table>
 	
 </div>
